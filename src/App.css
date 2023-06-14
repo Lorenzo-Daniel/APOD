@@ -1,38 +1,24 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap");
+
+.montserrat {
+  font-family: "Montserrat", sans-serif;
+  color: black;
+  font-weight: bold;
+}
+
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.bg-space {
+  height: 120vh;
+  background-image: url("https://img.freepik.com/free-photo/fictional-planet-with-colourful-night-sky-stars-nebula_1048-7926.jpg?w=740&t=st=1686622579~exp=1686623179~hmac=b38161a703b2fe5497cc0a9ec4adf1c655a04e1a56232286f4954077f081c223");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+@media (orientation: landscape) {
+    .bg-space {
+      height: 180vh;
+    }
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
