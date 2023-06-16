@@ -1,6 +1,19 @@
-import { useState } from "react";
-import 'bootstrap/dist/css/bootstrap.css'
+import { useEffect, useState } from "react";
+import "bootstrap/dist/css/bootstrap.css";
+import astronaut from "./astronaut.jpg";
 import "./App.css";
+import styled from "styled-components";
+console.log(styled);
+
+const Button = styled.button`
+  width: 147px;
+  border-radius: 5px;
+  color: white;
+  background-color: #0d6efd;
+  border: 1px solid white;
+`;
+
+console.log(Button);
 
 // const object = [
 //   {
@@ -29,13 +42,15 @@ import "./App.css";
 function App() {
   const [data, setData] = useState([]);
   const [panelShow, setPanelShow] = useState(true);
-  const [dropDownExplanation, setDropDownExplanation] = useState(false);
+  const [dropDownExplanationIndex, setDropDownExplanationIndex] = useState();
   const [dateFrom, setDateFrom] = useState();
   const [dateTo, setDateTo] = useState();
   const [numberCountImg, setNumberCountImg] = useState();
   const [singleDate, setSingleDate] = useState("");
+  const [dropDownHandler, setDropDownHandler] = useState(false);
+  const [somethingSelected, setSomethingSelected] = useState(false);
 
-  console.log(numberCountImg);
+  // console.log(data);
 
   const getSingleDateRequest = async (date) => {
     try {
@@ -45,6 +60,7 @@ function App() {
       const response = await request.json();
       setData([response]);
       setPanelShow(false);
+      somethingSelected(true);
     } catch (error) {
       console.log(error);
     }
@@ -63,6 +79,7 @@ function App() {
       const response = await request.json();
       setData([response]);
       setPanelShow(false);
+      somethingSelected(true);
     } catch (error) {
       console.log(error);
     }
@@ -76,6 +93,7 @@ function App() {
       const response = await request.json();
       setData(response);
       setPanelShow(false);
+      somethingSelected(true);
     } catch (error) {
       console.log(error);
     }
@@ -92,14 +110,16 @@ function App() {
         `https://api.nasa.gov/planetary/apod?api_key=teHf0lemJMiaPjInzdphYVK6bDuGLSaFt8jO8IIj&count=${count}`
       );
       const response = await request.json();
+      localStorage.setItem("pictures", JSON.stringify(response));
       setData(response);
       setPanelShow(false);
+      setSomethingSelected(true);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const rangeDateHandler = async (dateFrom, dateTo) => {
+  const rangeDateHandler = (dateFrom, dateTo) => {
     const dateFromTime = new Date(dateFrom).getTime();
     const dateToTime = new Date(dateTo).getTime();
     const minDate = new Date("1995-06-16").getTime();
@@ -119,9 +139,13 @@ function App() {
       );
     } else {
       getRangeRequest(dateFrom, dateTo);
-      setPanelShow(false);
     }
   };
+  useEffect(() => {
+    const getLS = JSON.parse(localStorage.getItem("pictures")) || [];
+    console.log(getLS);
+    setData(getLS);
+  }, []);
 
   const singleDateHandler = (singDate) => {
     const singleDate = new Date(singDate).getTime();
@@ -134,13 +158,17 @@ function App() {
       );
     } else {
       getSingleDateRequest(singDate);
-      setPanelShow(false);
     }
+  };
+
+  const dropDownExplanationHandler = (index) => {
+    setDropDownHandler((prev) => !prev);
+    setDropDownExplanationIndex(index);
   };
   return (
     <div className="App montserrat ">
       {panelShow ? (
-        <div className="bg-space ">
+        <div className="bg-space">
           <div className="w-100 text-white vh-100">
             <div className="d-flex flex-column align-items-end me-2 mb-3 ">
               <button
@@ -153,9 +181,8 @@ function App() {
             </div>
             <div className="">
               <div className="col-10 col-md-6 col-lg-5 col-xl-6 m-auto mb-5">
-                <h1 className="text-center mb-5">
-                  Astronomy Picture Of The Day
-                </h1>
+                <h1 className="mb-5">Astronomy Picture Of the Day</h1>
+                <Button> BUTTON</Button>
                 <div className="d-flex justify-content-between">
                   <span className="text-white">Get Today Picture</span>
 
@@ -240,25 +267,41 @@ function App() {
             </div>
           </div>
         </div>
-      ) : (
-        <div>
-          <div className="position-absolute ms-2 d-flex flex-column align-items-start">
+      ) : data.length === 0 ? (
+        <div style={{ backgroundColor: "#67e8fe" }} className="vh-100 ">
+          <div className="ms-2  d-flex flex-column align-items-start">
             <button
               className="btn btn-small p-1 pb-0"
               onClick={() => setPanelShow(true)}
             >
-              <i className="fa-regular fa-hand-point-right fs-2  text-light" />
+              <i className="fa-regular fa-hand-point-right fs-2 mb-0 text-light" />
             </button>
             <span className="text-white">Panel</span>
+          </div>
+          <p className="text-white fs-md-2 fs-4 pt-5 m-0">
+            You have not selected any search option!{" "}
+          </p>
+          <img src={astronaut} alt="astronaut" className="img-fluid w-50 " />
+        </div>
+      ) : (
+        <div>
+          <div className=" ms-2 d-flex flex-column align-items-start">
+            <button
+              className="btn btn-small p-1 pb-0"
+              onClick={() => setPanelShow(true)}
+            >
+              <i className="fa-regular fa-hand-point-right fs-2 text-dark " />
+            </button>
+            <span className="text-dark ">Panel</span>
           </div>
           <div>
             {data.map((object, index) => {
               return (
                 <div key={index}>
-                  <div className="">
+                  <div className="p-lg-2 w-100">
                     <img
                       src={object.url}
-                      className="img-fluid w-100"
+                      className="img-fluid w-100 "
                       alt={object.title}
                     />
                     <p className="mt-1 mb-0">{object.date}</p>
@@ -268,16 +311,20 @@ function App() {
                     <div className="border rounded-2 col-11 col-md-9 col-lg-7 m-auto">
                       <button
                         className="btn w-100 d-flex justify-content-between align-items-center"
-                        onClick={() => setDropDownExplanation((prev) => !prev)}
+                        onClick={() => dropDownExplanationHandler(index)}
                       >
                         <span>Explanation</span>
                         <i className="fa-regular fa-square-caret-down" />
                       </button>
-                      {dropDownExplanation && (
-                        <p className="text-center montserrat p-3">
-                          {object.explanation}
-                        </p>
-                      )}
+                      <p
+                        className={
+                          index === dropDownExplanationIndex && !dropDownHandler
+                            ? "text-center montserrat p-3 "
+                            : "visually-hidden"
+                        }
+                      >
+                        {object.explanation}
+                      </p>
                     </div>
                   </div>
                 </div>
