@@ -10,32 +10,9 @@ import {
   HomeContainer,
 } from "./Home/styles";
 import { Div, Button } from "../styles/GlobalTags";
+import ReactPlayer from "react-player";
+import sideralSpace from "./sideralSpace.mp4";
 
-console.log(<input type="date"/>)
-// const object = [
-//   {
-//     date: "2013-01-28",
-//     explanation:
-//       "Clouds of glowing gas mingle with dust lanes in the Trifid Nebula, a star forming region toward the constellation of the Archer (Sagittarius).  In the center, the three prominent dust lanes that give the Trifid its name all come together. Mountains of opaque dust appear on the right, while other dark filaments of dust are visible threaded throughout the nebula.  A single massive star visible near the center causes much of the Trifid's glow.  The Trifid, also known as M20, is only about 300,000 years old, making it among the youngest emission nebulae known.  The nebula lies about 9,000 light years away and the part pictured here Spans about 10 light years.  The above image is a composite with luminance taken from an image by the 8.2-m ground-based Subaru Telescope, detail provided by the 2.4-m orbiting Hubble Space Telescope, color data provided by Martin Pugh and image assembly and processing provided by Robert Gendler.",
-//     hdurl: "https://apod.nasa.gov/apod/image/1301/trifid_gendler_2400.jpg",
-//     media_type: "image",
-//     service_version: "v1",
-//     title: "In the Center of the Trifid Nebula",
-//     url: "https://apod.nasa.gov/apod/image/1301/trifid_gendler_960.jpg",
-//   },
-//   {
-//     copyright: "\nGary Stevens\n",
-//     date: "2003-07-21",
-//     explanation:
-//       "Why does this starfield photograph resemble an impressionistic painting?  The effect is created not by digital trickery but by large amounts of interstellar dust.  Dust, minute globs rich in carbon and similar in size to cigarette smoke, frequently starts in the outer atmospheres of large, cool, young stars. The dust is dispersed as the star dies and grows as things stick to it in the interstellar medium.  Dense dust clouds are opaque to visible light and can completely hide background stars.  For less dense clouds, the capacity of dust to preferentially reflect blue starlight becomes important, effectively blooming the stars blue light out and marking the surrounding dust.  Nebular gas emissions, typically brightest in red light, can combine to form areas seemingly created on an artist's canvas.  Photographed above is roughly one square degree of the nebula IC 4603 near the bright star Antares toward the constellation of Ophiuchus.",
-//     hdurl: "https://apod.nasa.gov/apod/image/0307/ic4603_stevens_big.jpg",
-//     media_type: "image",
-//     service_version: "v1",
-//     title: "IC 4603: Reflection Nebula in Ophiuchius",
-//     url: "https://apod.nasa.gov/apod/image/0307/ic4603_stevens.jpg",
-//   },
-// ];
-// console.log(object);
 function Home() {
   const [data, setData] = useState([]);
   const [panelShow, setPanelShow] = useState(true);
@@ -46,9 +23,10 @@ function Home() {
   const [singleDate, setSingleDate] = useState("");
   const [dropDownHandler, setDropDownHandler] = useState(false);
   const [somethingSelected, setSomethingSelected] = useState(false);
+  const [wiki, setWiki] = useState([]);
+  console.log(wiki);
 
-  // console.log(data);
-
+  //SINGLE DATE
   const getSingleDateRequest = async (date) => {
     try {
       const request = await fetch(
@@ -63,6 +41,22 @@ function Home() {
     }
   };
 
+  //SINGLE DATE HANDLER
+  const singleDateHandler = (singDate) => {
+    const singleDate = new Date(singDate).getTime();
+    const minDate = new Date("1995-06-16").getTime();
+    const maxDate = new Date().getTime();
+    const result = singleDate >= minDate && singleDate <= maxDate;
+    if (!result) {
+      return alert(
+        "debes ingresar un valor inferior a la fecha actual y superior o igual a 16/6/1995"
+      );
+    } else {
+      getSingleDateRequest(singDate);
+    }
+  };
+
+  // TODAY
   const getTodayRequest = async () => {
     const today = new Date();
     const year = today.getFullYear();
@@ -82,6 +76,7 @@ function Home() {
     }
   };
 
+  //GET RANGE
   const getRangeRequest = async (dateFrom, dateTo) => {
     try {
       const request = await fetch(
@@ -96,26 +91,7 @@ function Home() {
     }
   };
 
-  const getRandomRequest = async (count) => {
-    if (count === undefined || count === 0 || count > 100) {
-      return alert(
-        "debes ingresar un valor mayor que cero y menor o igual a 100"
-      );
-    }
-    try {
-      const request = await fetch(
-        `https://api.nasa.gov/planetary/apod?api_key=teHf0lemJMiaPjInzdphYVK6bDuGLSaFt8jO8IIj&count=${count}`
-      );
-      const response = await request.json();
-      localStorage.setItem("pictures", JSON.stringify(response));
-      setData(response);
-      setPanelShow(false);
-      setSomethingSelected(true);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+  //RANGE DATE HANDLER
   const rangeDateHandler = (dateFrom, dateTo) => {
     const dateFromTime = new Date(dateFrom).getTime();
     const dateToTime = new Date(dateTo).getTime();
@@ -138,23 +114,55 @@ function Home() {
       getRangeRequest(dateFrom, dateTo);
     }
   };
-  useEffect(() => {
-    const getLS = JSON.parse(localStorage.getItem("pictures")) || [];
-    console.log(getLS);
-    setData(getLS);
-  }, []);
 
-  const singleDateHandler = (singDate) => {
-    const singleDate = new Date(singDate).getTime();
-    const minDate = new Date("1995-06-16").getTime();
-    const maxDate = new Date().getTime();
-    const result = singleDate >= minDate && singleDate <= maxDate;
-    if (!result) {
+  //GET RANDOM
+  const getRandomRequest = async (count) => {
+    if (count === undefined || count === 0 || count > 100) {
       return alert(
-        "debes ingresar un valor inferior a la fecha actual y superior o igual a 16/6/1995"
+        "debes ingresar un valor mayor que cero y menor o igual a 100"
       );
-    } else {
-      getSingleDateRequest(singDate);
+    }
+    try {
+      const request = await fetch(
+        `https://api.nasa.gov/planetary/apod?api_key=teHf0lemJMiaPjInzdphYVK6bDuGLSaFt8jO8IIj&count=${count}`
+      );
+      const response = await request.json();
+      localStorage.setItem("pictures", JSON.stringify(response));
+      setData(response);
+      setPanelShow(false);
+      setSomethingSelected(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //WIKIPEDIA
+  const requestWikipedia = async (keySearch) => {
+    const url = `https://en.wikipedia.org/w/api.php?action=query&list=search&srprop=snippet&format=json&origin=*&utf8=&srsearch=${keySearch}`;
+    const option = {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    try {
+      const peticion = await fetch(url, option);
+      const res = await peticion.json();
+      const resSearch = res?.query?.search;
+      const resultArrayMax3 = [];
+      for (let i = 0; i < 3; i++) {
+        resultArrayMax3.push(resSearch[i]);
+      }
+
+      for (let i = 0; i < resultArrayMax3.length; i++) {
+        let removeSymbol = resultArrayMax3[i].snippet;
+        const removeContent = removeSymbol.replace(/<[^>]*>/g, "");
+        resultArrayMax3[i].snippet = removeContent;
+      }
+      return resultArrayMax3;
+    } catch (error) {
+      console.log("problems request wiwkipedia max3 undefined");
     }
   };
 
@@ -162,13 +170,60 @@ function Home() {
     setDropDownHandler((prev) => !prev);
     setDropDownExplanationIndex(index);
   };
+
+  
+
+  //USE EFFECT
+  useEffect(() => {
+    const getLS = JSON.parse(localStorage.getItem("pictures")) || [];
+    setData(getLS);
+    //OBTENER TITLES APOD
+  const getTitlesApod = async (getLS) => {
+    const titles = getLS.map((element) => element.title);
+    // const titlesRemoveCaracter = titles.map((element) =>
+    //   element.replace(/\n|\r/g, "")
+    // );
+
+    const promises = titles.map((title) => requestWikipedia(title));
+
+    try {
+      const responses = await Promise.all(promises);
+      for (let i = 0; i < responses.length; i++) {
+        if (responses[i] === undefined) {
+          const defaultResults = await requestWikipedia("Astronomy");
+          setWiki((prev) => [...prev, defaultResults]);
+        } else {
+          setWiki((prev) => [...prev, responses[i]]);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+    getTitlesApod(getLS);
+  }, []);
+
   return (
     <div className="App montserrat ">
       {panelShow ? (
-        <HomeContainer className="text-white  bg-space">
+        <HomeContainer className=" bg-space">
+          <div className="col-12 d-flex justify-content-center align-items-center">
+            <p className="text-white  position-absolute star">
+              Astronomy Picture <br />
+              of <br />
+              the Day
+            </p>
+            <ReactPlayer
+              url={sideralSpace}
+              playing
+              loop
+              width="100%"
+              height="100%"
+            />
+          </div>
           {/* className="d-flex flex-column align-items-end me-2 mb-3" */}
-          <Div $flex $aiend $column $mr='5px'>
-            <Button 
+          <Div $flex $aiend $column $mr="5px">
+            <Button
               className="btn btn-sm p-1 pb-0 "
               onClick={() => setPanelShow(false)}
             >
@@ -178,11 +233,11 @@ function Home() {
           </Div>
           <div className="">
             <div className="col-10 col-md-7 col-lg-5 col-xl-5 m-auto mb-5">
-              <h1 className="mb-5 text-center">Astronomy Picture Of the Day</h1>
-            
+              <p>Astronomy Pictures Of The Day (APOD) is a service of Nasa</p>
+
               <WrapperRowOptions $single>
                 <Span>Get Today Picture</Span>
-                <Button $btnPrimary  onClick={getTodayRequest}>
+                <Button $btnPrimary onClick={getTodayRequest}>
                   Today Picture
                 </Button>
               </WrapperRowOptions>
@@ -194,8 +249,10 @@ function Home() {
                     type="date"
                     onChange={(e) => setSingleDate(e.target.value)}
                   />
-                  <Button $btnPrimary 
-                  onClick={() => singleDateHandler(singleDate)}>
+                  <Button
+                    $btnPrimary
+                    onClick={() => singleDateHandler(singleDate)}
+                  >
                     Get Date
                   </Button>
                 </div>
@@ -215,7 +272,8 @@ function Home() {
                       onChange={(e) => setDateTo(e.target.value)}
                     />
                   </div>
-                  <Button $btnPrimary
+                  <Button
+                    $btnPrimary
                     onClick={() => rangeDateHandler(dateFrom, dateTo)}
                   >
                     Get Range
@@ -231,7 +289,8 @@ function Home() {
                     onChange={(e) => setNumberCountImg(Number(e.target.value))}
                     placeholder="entry quantity"
                   />
-                  <Button $btnPrimary
+                  <Button
+                    $btnPrimary
                     onClick={() => getRandomRequest(numberCountImg)}
                   >
                     get Random
@@ -240,7 +299,6 @@ function Home() {
               </WrapperRowOptions>
             </div>
           </div>
-       
         </HomeContainer>
       ) : data.length === 0 ? (
         <div style={{ backgroundColor: "#67e8fe" }} className="vh-100 ">
@@ -283,6 +341,23 @@ function Home() {
                   </div>
                   <div className="col-12 m-auto mb-4">
                     <h6 className="p-3 montserrat">{object.title}</h6>
+                    <div className="d-flex flex-column flex-md-row justify-content-evenly">
+                    {wiki[index].map((element, i) => {
+                      return (
+                        <div className=" border rounded my-2 mx-3 p-2" key={i}>
+                          <a
+                            href={`https://en.wikipedia.org/?curid=${element.pageid}`}
+                            target="_blanck"
+                          >
+                            {element.title}
+                          </a>
+                          <div>
+                            <p>{element.snippet}</p>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
                     <div className="border rounded-2 col-11 col-md-9 col-lg-7 m-auto">
                       <button
                         className="btn w-100 d-flex justify-content-between align-items-center"
