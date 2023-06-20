@@ -95,7 +95,7 @@ function Gallery() {
   return (
     <div>
       {spinner && (
-        <div className="d-flex justify-content-center align-itemse-center">
+        <div className="d-flex justify-content-center align-itemse-center mt-5">
           <div className="spinner-border" role="status">
             <span className="">Loading...</span>
           </div>
