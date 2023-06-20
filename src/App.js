@@ -1,13 +1,18 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
-import Apod from "./components/Home";
+import "./App.css";
+import Home from "./components/Home";
 import GlobalStyles from "./styles/GlobalStyles";
-
+import Gallery from "./components/Gallery/Gallery";
 function App() {
   return (
-    <>
+    <BrowserRouter>
       <GlobalStyles />
-      <Apod />
-    </>
+      <Routes>
+        <Route exact path="/" element={<Home />} />
+        <Route exact path="/Gallery" element={<Gallery />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 export default App;
