@@ -17,7 +17,6 @@ function Home() {
   const [numberCountImg, setNumberCountImg] = useState();
   const [singleDate, setSingleDate] = useState("");
   const navigate = useNavigate();
-  
 
   //GET TODAY
   const getTodayRequest = async () => {
@@ -128,12 +127,12 @@ function Home() {
     const getLS = JSON.parse(localStorage.getItem("pictures")) || [];
     console.log(getLS);
   }, []);
-  
+
   return (
     <div className="App montserrat ">
       <HomeContainer className=" bg-space">
         <div className="col-12 d-flex justify-content-center align-items-center">
-          <p className="text-white  position-absolute star">
+          <p className="text-white  position-absolute star animate__animated animate__zoomIn animate__delay-1 animate__slow	">
             Astronomy Picture <br />
             of <br />
             the Day
@@ -153,8 +152,6 @@ function Home() {
         </Div>
         <div className="">
           <div className="col-10 col-md-7 col-lg-5 col-xl-5 m-auto mb-5">
-            <p>Astronomy Pictures Of The Day (APOD) is a service of Nasa</p>
-
             <WrapperRowOptions $single>
               <Span>Get Today Picture</Span>
               <Button $btnPrimary onClick={getTodayRequest}>
