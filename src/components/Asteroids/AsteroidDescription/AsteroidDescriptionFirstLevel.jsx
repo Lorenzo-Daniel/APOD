@@ -19,7 +19,7 @@ function AsteroidDescriptionFirstLevel({ data, name, date, secondLevelObj ,setfi
       }
     };
     getKeysToShow();
-  }, [data, name, date]);
+  }, [data, name, date,secondLevelObj]);
   return (
     <div>
       {keysToShow.length > 0 && (
