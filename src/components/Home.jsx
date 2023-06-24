@@ -147,8 +147,13 @@ function Home() {
         </div>
         <Div $flex $ais $column $mr="5px" className="p-2">
           <Link to={"/Gallery"} className="btn btn-sm p-1 pb-0 ">
-            <i className="fa-regular fa-hand-point-left fs-2"></i>
+            <span className="ms-2">APOD Gallery</span>
           </Link>
+          <div>
+            <Link to={"/Asteroids"} className="btn btn-sm p-1 pb-0 ">
+              <span className="ms-2">Asteroids</span>
+            </Link>
+          </div>
         </Div>
         <div className="">
           <div className="col-10 col-md-7 col-lg-5 col-xl-5 m-auto mb-5">

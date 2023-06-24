@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import astronaut from "../Gallery/astronaut.jpg";
 import { Span } from "./styles";
@@ -13,13 +13,6 @@ function Gallery() {
   const [data, setData] = useState([]);
   const [spinner, setSpinner] = useState(true);
   const [showResults, setShowResults] = useState(null);
-  const pageRef = useRef(null);
-
-  const scrollToTop = () => {
-    if (pageRef.current) {
-      pageRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  };
 
   const popUpImgGaleria = (urlImg, nombre) => {
     Swal.fire({
@@ -119,7 +112,6 @@ function Gallery() {
       {spinner && (
         <div className="d-flex justify-content-center align-itemse-center mt-5">
           <div className="spinner-border" role="status">
-            <span className="">Loading...</span>
           </div>
         </div>
       )}
@@ -143,20 +135,11 @@ function Gallery() {
         </div>
       ) : (
         <div>
-          {/* <div className=" p-5 d-flex flex-column align-items-start sticky-top">
-            <Link to={"/"} className="btn btn-small p-1 pb-0">
-              <i className="fa-regular fa-hand-point-right fs-2 mb-0 text-black" />
-            </Link>
-            <Span className="text-black">Panel</Span>
-          </div> */}
-          <div className=" p-3  d-flex flex-column align-items-end sticky-top">
-            <Link
-              to={"/"}
-              className="btn btn-small p-1 pb-0  bg-info"
-              onClick={scrollToTop}
-            >
-              <i className="fa-regular fa-hand-point-up fs-2 mb-0 text-black" />
-            </Link>
+        
+          <div className=" p-3  d-flex flex-column align-items-start">
+          <Link to={"/"} className="btn btn-sm p-1 pb-0 ">
+        <span className="ms-2">Home</span>
+      </Link>
           </div>
           {data.map((object, index) => {
             return (
