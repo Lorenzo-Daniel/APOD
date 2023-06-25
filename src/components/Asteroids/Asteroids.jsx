@@ -33,8 +33,8 @@ function Asteroids() {
   };
 
   useEffect(() => {
-    // setData((prev) => prev || []);
-    setData(JSON.parse(localStorage.getItem("data")).near_earth_objects || []);
+    setData((prev) => prev || []);
+    // setData(JSON.parse(localStorage.getItem("data")).near_earth_objects || []);
   }, []);
 
   return (
@@ -43,7 +43,7 @@ function Asteroids() {
         <span className="ms-2">Home</span>
       </Link>
       <h1 className="text-center my-5">Asteroids</h1>
-      <div className="">
+      <div className="d-flex flex-column align-items-center">
         <div className="col-11 col-lg-6 col-xl-4 d-flex flex-column m-auto ">
           <div>
             <label className="d-flex flex-column ">
