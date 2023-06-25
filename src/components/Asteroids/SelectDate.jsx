@@ -1,21 +1,19 @@
-import React, { useEffect } from "react";
+import React from "react";
  function SelectDate({ data, setDate }) {
+
   const dates = Object.keys(data);
-   useEffect(() => {
-    console.log("SelectDate mounted");
-    return () => console.log("SelectDate unmounted");
-  }, []);
-   return (
+  
+  return (
     <div className="">
       {dates.length > 0 && (
         <div className="">
           <h4 className="text-center mt-3">Selecciona una fecha</h4>
-          <div className="w-50 m-auto d-flex flex-wrap justify-content-between mt-3">
+          <div className="d-flex flex-wrap justify-content-center col-11 col-lg-9 col-xl-4 m-auto">
             {dates.map((dataKey) => {
               return (
                 <button
                 key={dataKey}
-                  className="btn border btn-sm mt-2 btn-info"
+                  className="btn border btn-sm m-2 btn-info"
                   onClick={() => setDate(dataKey)}
                 >
                   {dataKey}

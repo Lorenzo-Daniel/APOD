@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import SelectDate from "./SelectDate";
 import SelectAsteroidName from "./SelectAsteroidName";
-import AsteroidDescriptionFirstLevel from "./AsteroidDescription/AsteroidDescriptionFirstLevel";
-import AsteroidDescriptionSecondLevel from "./AsteroidDescription/AsteroidDescriptionSecondLevel";
+import AsteroidDescription from "./AsteroidDescription/AsteroidDescription";
+
 function Asteroids() {
   const [data, setData] = useState([]);
   const [fechaInicio, setFechaInicio] = useState("");
@@ -12,9 +12,6 @@ function Asteroids() {
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [secondLevelObj, setSecondLevelObj] = useState("");
-  const [firstLevelKey, setfirstLevelKey] = useState("");
-  console.log(firstLevelKey);
 
   const requestApiAsteroids = async (e, fechaInicio, endDate) => {
     if (fechaInicio === "" || endDate === "") {
@@ -34,19 +31,22 @@ function Asteroids() {
       setError(error.message);
     }
   };
+
   useEffect(() => {
-    setData((prev) => prev || []);
+    // setData((prev) => prev || []);
+    setData(JSON.parse(localStorage.getItem("data")).near_earth_objects || []);
   }, []);
+
   return (
-    <div className="container">
+    <div >
       <Link to={"/"} className="btn btn-sm p-1 pb-0 ">
         <span className="ms-2">Home</span>
       </Link>
       <h1 className="text-center my-5">Asteroids</h1>
-      <div>
-        <div className="w-100 d-flex flex-column m-auto ">
+      <div className="">
+        <div className="col-11 col-lg-6 col-xl-4 d-flex flex-column m-auto ">
           <div>
-            <label className="d-flex flex-column">
+            <label className="d-flex flex-column ">
               Start date
               <input
                 type="date"
@@ -55,7 +55,7 @@ function Asteroids() {
             </label>
           </div>
           <div>
-            <label className="d-flex flex-column">
+            <label className="d-flex flex-column mt-2">
               End date
               <input
                 type="date"
@@ -75,14 +75,7 @@ function Asteroids() {
         </div>
         <SelectDate data={data} setDate={setDate} />
         <SelectAsteroidName data={data} setName={setName} date={date} />
-        <AsteroidDescriptionFirstLevel
-          data={data}
-          name={name}
-          date={date}
-          secondLevelObj={setSecondLevelObj}
-          setfirstLevelKey={setfirstLevelKey}
-        />
-        <AsteroidDescriptionSecondLevel secondLevelObj={secondLevelObj} />
+        <AsteroidDescription data={data} name={name} date={date} />
       </div>
     </div>
   );

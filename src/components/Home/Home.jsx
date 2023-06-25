@@ -6,8 +6,8 @@ import {
   Input,
   Span,
   HomeContainer,
-} from "./Home/styles";
-import { Div, Button } from "../styles/GlobalTags";
+} from "./styles";
+import { Div, Button } from "../../styles/GlobalTags";
 import ReactPlayer from "react-player";
 import sideralSpace from "./sideralSpace.mp4";
 
