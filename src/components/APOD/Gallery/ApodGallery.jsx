@@ -6,7 +6,7 @@ import ReactPlayer from "react-player";
 import Swal from "sweetalert2";
 // import { Div, Button } from "../../styles/GlobalStyles";
 
-function Gallery() {
+function ApodGallery() {
   const [dropDownExplanationIndex, setDropDownExplanationIndex] = useState();
   const [dropDownHandler, setDropDownHandler] = useState(false);
   const [wiki, setWiki] = useState([]);
@@ -111,13 +111,12 @@ function Gallery() {
     <div>
       {spinner && (
         <div className="d-flex justify-content-center align-itemse-center mt-5">
-          <div className="spinner-border" role="status">
-          </div>
+          <div className="spinner-border" role="status"></div>
         </div>
       )}
 
       {showResults ? (
-        <div style={{ backgroundColor: "#67e8fe",height:'100vh' }}>
+        <div style={{ backgroundColor: "#67e8fe", height: "100vh" }}>
           <div className="ms-2  d-flex flex-column align-items-start">
             <Link to={"/"} className="btn btn-small p-1 pb-0">
               <i className="fa-regular fa-hand-point-right fs-2 mb-0 text-light" />
@@ -129,18 +128,17 @@ function Gallery() {
               You have not selected any search option!
             </p>
             <div className="d-flex justify-content-center ">
-            <img src={astronaut} style={{ maxWidth:'350px'}} alt="astronaut" className="img-fluid w-50" />
+              <img
+                src={astronaut}
+                style={{ maxWidth: "350px" }}
+                alt="astronaut"
+                className="img-fluid w-50"
+              />
             </div>
           </div>
         </div>
       ) : (
         <div>
-        
-          <div className=" p-3  d-flex flex-column align-items-start">
-          <Link to={"/"} className="btn btn-sm p-1 pb-0 ">
-        <span className="ms-2">Home</span>
-      </Link>
-          </div>
           {data.map((object, index) => {
             return (
               <div key={index}>
@@ -214,4 +212,4 @@ function Gallery() {
   );
 }
 
-export default Gallery;
+export default ApodGallery;

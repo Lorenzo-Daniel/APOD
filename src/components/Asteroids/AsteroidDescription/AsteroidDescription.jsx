@@ -27,7 +27,7 @@ function AsteroidDescription({ data, name, date }) {
       {(showDescription && obj !== undefined) && (
         <div className="d-flex flex-column align-items-center  overflow-x-scroll">
           <h3>Name : {obj.name}</h3>
-          <ul className="list-unstyled my-5">
+          <ul className="list-unstyled d-flex flex-column  flex-wrap" >
             <li>
               absolute_magnitude_h:
               <span >{obj["absolute_magnitude_h"]}</span>

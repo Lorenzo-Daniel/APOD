@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import SelectDate from "./SelectDate";
 import SelectAsteroidName from "./SelectAsteroidName";
 import AsteroidDescription from "./AsteroidDescription/AsteroidDescription";
@@ -39,9 +38,6 @@ function Asteroids() {
 
   return (
     <div >
-      <Link to={"/"} className="btn btn-sm p-1 pb-0 ">
-        <span className="ms-2">Home</span>
-      </Link>
       <h1 className="text-center my-5">Asteroids</h1>
       <div className="d-flex flex-column align-items-center">
         <div className="col-11 col-lg-6 col-xl-4 d-flex flex-column m-auto ">
