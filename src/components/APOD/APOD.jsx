@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   WrapperRowOptions,
@@ -122,11 +122,6 @@ function APOD() {
       console.log(error);
     }
   };
-  //USE EFFECT
-  useEffect(() => {
-    const getLS = JSON.parse(localStorage.getItem("pictures")) || [];
-    // console.log(getLS);
-  }, []);
 
   return (
     <div className="App montserrat ">
