@@ -1,13 +1,13 @@
-import React from 'react'
-
+import React from "react";
+// import "./styles.css";
+import PopUp from "../APOD/Gallery/PopUp";
 function Home() {
+ 
   return (
-    <div>
-    <h1 className='text-center mt-4'>
-      HOME
-    </h1>
+    <div className="homeContainer">
+     <PopUp/>
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;

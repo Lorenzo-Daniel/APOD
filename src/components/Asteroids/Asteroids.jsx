@@ -37,7 +37,7 @@ function Asteroids() {
   }, []);
 
   return (
-    <div >
+    <div className="" >
       <h1 className="text-center my-5">Asteroids</h1>
       <div className="d-flex flex-column align-items-center">
         <div className="col-11 col-lg-6 col-xl-4 d-flex flex-column m-auto ">

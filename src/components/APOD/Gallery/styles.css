@@ -1,0 +1,53 @@
+.container-PopUp-Apod {
+  background: white;
+  overflow: hidden;
+  animation: color-change 30s linear infinite;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+}
+
+#container div {
+  width: 95vmin;
+  height: 95vmin;
+  border-top: 3px solid #000;
+  border-right: 3px solid #000;
+  position: relative;
+  border-radius: 100%;
+  animation: rotation 30s linear infinite;
+}
+
+#container div div {
+  width: 96%;
+  height: 96%;
+  position: absolute;
+  bottom: 6%;
+  right: 5%;
+  animation: rotation 30s linear infinite, elongate 30s linear infinite;
+}
+
+@keyframes color-change {
+  40%,
+  70% {
+    background: #efefef;
+  }
+}
+
+@keyframes rotation {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@keyframes elongate {
+  50% {
+    transform: scaleX(1.5) scaleY(0.5);
+  }
+}

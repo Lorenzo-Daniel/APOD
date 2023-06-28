@@ -4,6 +4,7 @@ import astronaut from "../Gallery/astronaut.jpg";
 import { Span } from "./styles";
 import ReactPlayer from "react-player";
 import Swal from "sweetalert2";
+import PopUp from "./PopUp";
 // import { Div, Button } from "../../styles/GlobalStyles";
 
 function ApodGallery() {
@@ -91,15 +92,15 @@ function ApodGallery() {
           }
         }
         setData(getLS);
-        if (getLS.length === 0) {
-          setTimeout(() => {
+        setTimeout(() => {
+          if (getLS.length === 0) {
             setSpinner(false);
             setShowResults(true);
-          }, 1000);
-        } else {
-          setSpinner(false);
-          setShowResults(false);
-        }
+          } else {
+            setSpinner(false);
+            setShowResults(false);
+          }
+        }, 2000);
       } catch (error) {
         console.error(error);
       }
@@ -109,11 +110,7 @@ function ApodGallery() {
 
   return (
     <div>
-      {spinner && (
-        <div className="d-flex justify-content-center align-itemse-center mt-5">
-          <div className="spinner-border" role="status"></div>
-        </div>
-      )}
+      {spinner && <PopUp />}
 
       {showResults ? (
         <div style={{ backgroundColor: "#67e8fe", height: "100vh" }}>
