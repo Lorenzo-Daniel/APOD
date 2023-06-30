@@ -114,7 +114,6 @@ function APOD() {
 
   //GET RANDOM
   const getRandomRequest = async (count) => {
-    setError(null);
     if (count === undefined || count === 0 || count > 100) {
       return alert(
         "debes ingresar un valor mayor que cero y menor o igual a 100"
