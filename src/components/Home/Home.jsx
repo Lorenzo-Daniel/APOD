@@ -1,11 +1,10 @@
-import React from "react";
-// import "./styles.css";
-import PopUp from "../APOD/Gallery/PopUp";
+import React, { useState } from "react";
+
 function Home() {
- 
+  const [data, setData] = useState([]);
   return (
     <div className="homeContainer">
-     <PopUp/>
+      <h1 className="text-center mt-4">Home</h1>
     </div>
   );
 }

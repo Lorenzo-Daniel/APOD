@@ -1,0 +1,8 @@
+.scroll{
+    overflow-x: scroll;
+    @media (min-width :360px){
+        overflow-x: hidden;
+        justify-content: center;
+    }
+
+}

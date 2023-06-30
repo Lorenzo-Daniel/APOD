@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { generatePath } from "react-router-dom";
 
 function AsteroidDescription({ data, name, date }) {
   const [obj, setObj] = useState([]);
@@ -13,6 +14,7 @@ function AsteroidDescription({ data, name, date }) {
         const getObj = data[date];
         if(getObj){
           const getObjforName = getObj.find((element) => element.name === name);
+          // console.log(magnitud);
           setObj(getObjforName);
           setShowDescription(true)
         }else {

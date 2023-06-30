@@ -12,6 +12,7 @@ function Navbar() {
           <Link to={"apod"} className="nav-link"> APOD </Link>
           <Link to={"/asteroids"} className="nav-link">Asteroids</Link>
           <Link to={"/epic"} className="nav-link">EPIC </Link>
+          <Link to={"/marsRoverPhotos"} className="nav-link">Mars Rover </Link>
         </div>
         </nav>
       </header>

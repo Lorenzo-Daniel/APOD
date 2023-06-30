@@ -9,6 +9,7 @@ import Asteroids from "./components/Asteroids/Asteroids";
 import Navbar from "./components/Navbar/Navbar";
 import APOD from "./components/APOD/APOD";
 import Epic from "./components/EPIC/Epic";
+import MarsRoverPhotos from "./components/Mars Rover Photos/MarsRoverPhotos";
 function App() {
   return (
     <BrowserRouter>
@@ -19,7 +20,8 @@ function App() {
         <Route exact path="/apod" element={<APOD />} />
         <Route exact path="/apodGallery" element={<ApodGallery />} />
         <Route exact path="/Asteroids" element={<Asteroids />} />
-        <Route exact path="/epic" element={<Epic/>} />
+        <Route exact path="/epic" element={<Epic />} />
+        <Route exact path="/marsRoverPhotos" element={<MarsRoverPhotos />} />
       </Routes>
     </BrowserRouter>
   );

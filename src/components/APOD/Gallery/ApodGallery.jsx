@@ -9,7 +9,7 @@ import PopUp from "./PopUp";
 
 function ApodGallery() {
   const [dropDownExplanationIndex, setDropDownExplanationIndex] = useState();
-  const [dropDownHandler, setDropDownHandler] = useState(false);
+  const [dropDownHandler, setDropDownHandler] = useState(true);
   const [wiki, setWiki] = useState([]);
   const [data, setData] = useState([]);
   const [spinner, setSpinner] = useState(true);
@@ -70,8 +70,8 @@ function ApodGallery() {
   };
 
   const dropDownExplanationHandler = (index) => {
-    setDropDownHandler((prev) => !prev);
     setDropDownExplanationIndex(index);
+    setDropDownHandler((prev) => !prev);
   };
 
   useEffect(() => {
@@ -92,15 +92,8 @@ function ApodGallery() {
           }
         }
         setData(getLS);
-        setTimeout(() => {
-          if (getLS.length === 0) {
-            setSpinner(false);
-            setShowResults(true);
-          } else {
-            setSpinner(false);
-            setShowResults(false);
-          }
-        }, 2000);
+          setSpinner(false);
+          setShowResults(false);
       } catch (error) {
         console.error(error);
       }

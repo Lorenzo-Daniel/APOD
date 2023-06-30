@@ -1,12 +1,6 @@
-import {useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  WrapperRowOptions,
-  Label,
-  Input,
-  Span,
-  HomeContainer,
-} from "./styles";
+import { WrapperRowOptions, Label, Input, Span, HomeContainer } from "./styles";
 import { Div, Button } from "../../styles/GlobalTags";
 import ReactPlayer from "react-player";
 import sideralSpace from "./sideralSpace.mp4";
@@ -16,6 +10,8 @@ function APOD() {
   const [dateTo, setDateTo] = useState();
   const [numberCountImg, setNumberCountImg] = useState();
   const [singleDate, setSingleDate] = useState("");
+  const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   //GET TODAY
@@ -26,13 +22,17 @@ function APOD() {
     const date = today.getDate();
     const formatDate = `${year}-${month}-${date}`;
     try {
+      setIsLoading({ today: true });
       const request = await fetch(
         `https://api.nasa.gov/planetary/apod?api_key=teHf0lemJMiaPjInzdphYVK6bDuGLSaFt8jO8IIj&date=${formatDate}&concept_tags=True`
       );
       const response = await request.json();
       localStorage.setItem("pictures", JSON.stringify([response]));
-      navigate("/Gallery");
+      setIsLoading({ today: false });
+      navigate("/apodGallery");
     } catch (error) {
+      setIsLoading({ today: false });
+      alert("Algo salio mal! Vuelve a intentarlo mas tarde");
       console.log(error);
     }
   };
@@ -40,13 +40,17 @@ function APOD() {
   //SINGLE DATE
   const getSingleDateRequest = async (date) => {
     try {
+      setIsLoading({ singDate: true });
       const request = await fetch(
         `https://api.nasa.gov/planetary/apod?api_key=teHf0lemJMiaPjInzdphYVK6bDuGLSaFt8jO8IIj&date=${date}&concept_tags=True`
       );
       const response = await request.json();
       localStorage.setItem("pictures", JSON.stringify([response]));
-      navigate("/Gallery");
+      navigate("/apodGallery");
+      setIsLoading({ singDate: false });
     } catch (error) {
+      setIsLoading({ singDate: false });
+      alert("Algo salio mal! Vuelve a intentarlo mas tarde");
       console.log(error);
     }
   };
@@ -69,14 +73,18 @@ function APOD() {
   //GET RANGE
   const getRangeRequest = async (dateFrom, dateTo) => {
     try {
+      setIsLoading({ range: true });
       const request = await fetch(
         `https://api.nasa.gov/planetary/apod?api_key=teHf0lemJMiaPjInzdphYVK6bDuGLSaFt8jO8IIj&start_date=${dateFrom}&end_date=${dateTo}`
       );
       const response = await request.json();
       localStorage.setItem("pictures", JSON.stringify(response));
-      navigate("/Gallery");
+      setIsLoading({ range: false });
+      navigate("/apodGallery");
     } catch (error) {
       console.log(error);
+      setIsLoading({ range: false });
+      alert("Algo salio mal! Vuelve a intentarlo mas tarde");
     }
   };
 
@@ -106,20 +114,29 @@ function APOD() {
 
   //GET RANDOM
   const getRandomRequest = async (count) => {
+    setError(null);
     if (count === undefined || count === 0 || count > 100) {
       return alert(
         "debes ingresar un valor mayor que cero y menor o igual a 100"
       );
     }
     try {
+      setIsLoading({ random: true });
       const request = await fetch(
         `https://api.nasa.gov/planetary/apod?api_key=teHf0lemJMiaPjInzdphYVK6bDuGLSaFt8jO8IIj&count=${count}`
       );
       const response = await request.json();
-      localStorage.setItem("pictures", JSON.stringify(response));
-      navigate("/Gallery");
+      setTimeout(() => {
+        if (response) {
+          localStorage.setItem("pictures", JSON.stringify(response));
+          setIsLoading({ random: false });
+          navigate("/apodGallery");
+        }
+      }, 3000);
     } catch (error) {
       console.log(error);
+      setIsLoading({ random: false });
+      alert("Algo salio mal! Vuelve a intentarlo mas tarde");
     }
   };
 
@@ -142,17 +159,22 @@ function APOD() {
         </div>
         <Div $flex $ais $column $mr="5px" className="p-2">
           <Link to={"/apodGallery"} className="btn btn-sm p-1 pb-0 ">
-          <i className="fa-solid fa-arrow-left"/>
+            <i className="fa-solid fa-arrow-left" />
             <span className="ms-2">Gallery</span>
           </Link>
         </Div>
         <div className="">
           <div className="col-10 col-md-7 col-lg-5 col-xl-5 m-auto mb-5">
-            <WrapperRowOptions $single>
+            <WrapperRowOptions>
               <Span>Get Today Picture</Span>
-              <Button $btnPrimary onClick={getTodayRequest}>
-                Today Picture
-              </Button>
+              <div>
+                <Input
+                  type="button"
+                  className="bg-success"
+                  value={isLoading.today ? "Get Today..." : "Get Today"}
+                  onClick={getTodayRequest}
+                />
+              </div>
             </WrapperRowOptions>
             <WrapperRowOptions>
               <Span>Get Single Date</Span>
@@ -162,12 +184,16 @@ function APOD() {
                   type="date"
                   onChange={(e) => setSingleDate(e.target.value)}
                 />
-                <Button
-                  $btnPrimary
+                <Input
+                  type="button"
+                  className="bg-success"
                   onClick={() => singleDateHandler(singleDate)}
-                >
-                  Get Date
-                </Button>
+                  value={
+                    isLoading.singDate
+                      ? "Get Single date..."
+                      : "Get Single date"
+                  }
+                />
               </div>
             </WrapperRowOptions>
             <WrapperRowOptions>
@@ -185,12 +211,12 @@ function APOD() {
                     onChange={(e) => setDateTo(e.target.value)}
                   />
                 </div>
-                <Button
-                  $btnPrimary
+                <Input
+                  className="bg-success"
+                  type="button"
+                  value={isLoading.range ? "Get Range..." : "Get Range"}
                   onClick={() => rangeDateHandler(dateFrom, dateTo)}
-                >
-                  Get Range
-                </Button>
+                />
               </div>
             </WrapperRowOptions>
             <WrapperRowOptions>
@@ -202,12 +228,12 @@ function APOD() {
                   onChange={(e) => setNumberCountImg(Number(e.target.value))}
                   placeholder="entry quantity"
                 />
-                <Button
-                  $btnPrimary
+                <Input
+                  type="button"
+                  className="bg-success"
+                  value={isLoading.random ? "Get Random..." : "Get Random"}
                   onClick={() => getRandomRequest(numberCountImg)}
-                >
-                  get Random
-                </Button>
+                />
               </div>
             </WrapperRowOptions>
           </div>
@@ -217,4 +243,4 @@ function APOD() {
   );
 }
 
-export default APOD
+export default APOD;

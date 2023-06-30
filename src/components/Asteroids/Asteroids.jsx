@@ -33,7 +33,7 @@ function Asteroids() {
 
   useEffect(() => {
     setData((prev) => prev || []);
-    // setData(JSON.parse(localStorage.getItem("data")).near_earth_objects || []);
+    setData(JSON.parse(localStorage.getItem("data")).near_earth_objects || []);
   }, []);
 
   return (
