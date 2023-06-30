@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { WrapperRowOptions, Label, Input, Span, HomeContainer } from "./styles";
-import { Div, Button } from "../../styles/GlobalTags";
+import { Div } from "../../styles/GlobalTags";
 import ReactPlayer from "react-player";
 import sideralSpace from "./sideralSpace.mp4";
 
@@ -10,7 +10,7 @@ function APOD() {
   const [dateTo, setDateTo] = useState();
   const [numberCountImg, setNumberCountImg] = useState();
   const [singleDate, setSingleDate] = useState("");
-  const [error, setError] = useState(false);
+  // const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 

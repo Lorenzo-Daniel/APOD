@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { generatePath } from "react-router-dom";
 
 function AsteroidDescription({ data, name, date }) {
   const [obj, setObj] = useState([]);
